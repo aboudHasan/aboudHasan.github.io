@@ -5,10 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Overwatchle</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>	
-		
-  <style>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>  
   
+  <style>
     @font-face {
 		font-family: BigNoodleOblique;
 		src: url("BignoodletitlingOblique-BxY5.ttf") format("truetype");
@@ -98,16 +97,29 @@
 	  
     }
     .guess-entry {
+		display: flex;
+		align-items: center;
 		padding: 10px;
 		margin-top: 5px;
 		background-color: #43484c;
 		color: white;
 		border: 1px solid white;
 		border-radius: 10px;
-		justify-self:center;
-		width: 700px;
+		justify-self: center;
+		justify-content:center;
+		width: 825px;
 		font-size: 25px;
+		text-align: center;
     }
+	
+	.guess-image {
+		width: 50px;
+		height: 50px;
+		margin-right: 10px;
+		border-radius: 5px;
+		padding:3px;
+		border: 1px solid #f99e1a;
+	}
 	
 	.correct-trait{
 		color: green;
@@ -119,7 +131,7 @@
   </style>
 </head>
 <body>
-  <div class="gameContainer">	
+  <div class="gameContainer">  
   <h1>Overwatch Hero Guessing Game</h1>
   <p>Guess the Overwatch hero based on matching traits!</p>
 
@@ -133,56 +145,54 @@
 
   <script>
     // Hero data
-    // This array contains a list of heroes and their attributes such as name, species, gender, playstyle, and release year.
     const heroes = [
-	  { name: "Ana", role: "Support", species: "Human", gender: "Female", compPlaystyle: "Dive", releaseYear: 2016 },
-      { name: "Ashe", role: "DPS", species: "Human", gender: "Female", compPlaystyle: "Poke", releaseYear: 2018 },
-	  { name: "Baptiste", role: "Support", species: "Human", gender: "Male", compPlaystyle: "Brawl", releaseYear: 2019 },
-	  { name: "Bastion", role: "DPS", species: "Omnic", gender: "Male", compPlaystyle: "Brawl", releaseYear: 2016 },
-	  { name: "Brigitte", role: "Support", species: "Human", gender: "Female", compPlaystyle: "Dive", releaseYear: 2018 },
-	  { name: "Cassidy", role: "DPS", species: "Human", gender: "Male", compPlaystyle: "Brawl", releaseYear: 2016 },
-	  { name: "D.Va", role: "Tank", species: "Human", gender: "Female", compPlaystyle: "Dive", releaseYear: 2016 },
-	  { name: "Doomfist", role: "Tank", species: "Cyborg", gender: "Male", compPlaystyle: "Dive", releaseYear: 2017 },
-	  { name: "Echo", role: "DPS", species: "Omnic", gender: "Female", compPlaystyle: "Dive", releaseYear: 2020 },
-	  { name: "Genji", role: "DPS", species: "Cyborg", gender: "Male", compPlaystyle: "Dive", releaseYear: 2016 },
-	  { name: "Hanzo", role: "DPS", species: "Human", gender: "Male", compPlaystyle: "Poke", releaseYear: 2016 },
-	  { name: "Hazard", role: "Tank", species: "Cyborg", gender: "Male", compPlaystyle: "Dive", releaseYear: 2024 },
-	  { name: "Illari", role: "Support", species: "Human", gender: "Female", compPlaystyle: "Poke", releaseYear: 2023 },
-	  { name: "Junker Queen", role: "Tank", species: "Human", gender: "Female", compPlaystyle: "Brawl", releaseYear: 2022 },
-	  { name: "Junkrat", role: "DPS", species: "Human", gender: "Male", compPlaystyle: "Brawl", releaseYear: 2016 },
-	  { name: "Juno", role: "Support", species: "Human", gender: "Female", compPlaystyle: "Brawl", releaseYear: 2024 },
-	  { name: "Kiriko", role: "Support", species: "Human", gender: "Female", compPlaystyle: "Dive", releaseYear: 2022 },
-	  { name: "Lifeweaver", role: "Support", species: "Human", gender: "Male", compPlaystyle: "Poke", releaseYear: 2023 },
-	  { name: "Lucio", role: "Support", species: "Human", gender: "Male", compPlaystyle: "Dive", releaseYear: 2016 },
-	  { name: "Mauga", role: "Tank", species: "Cyborg", gender: "Male", compPlaystyle: "Brawl", releaseYear: 2023 },
-	  { name: "Mei", role: "DPS", species: "Human", gender: "Female", compPlaystyle: "Brawl", releaseYear: 2016 },
-	  { name: "Mercy", role: "Support", species: "Human", gender: "Female", compPlaystyle: "Poke", releaseYear: 2016 },
-	  { name: "Moira", role: "Support", species: "Other", gender: "Female", compPlaystyle: "Brawl", releaseYear: 2017 },
-	  { name: "Orisa", role: "Tank", species: "Omnic", gender: "Female", compPlaystyle: "Brawl", releaseYear: 2017 },
-	  { name: "Pharah", role: "DPS", species: "Human", gender: "Female", compPlaystyle: "Dive", releaseYear: 2016 },
-	  { name: "Ramattra", role: "Tank", species: "Omnic", gender: "Male", compPlaystyle: "Brawl", releaseYear: 2022 },
-	  { name: "Reaper", role: "DPS", species: "Other", gender: "Male", compPlaystyle: "Dive", releaseYear: 2016 },
-	  { name: "Reinhardt", role: "Tank", species: "Human", gender: "Male", compPlaystyle: "Brawl", releaseYear: 2016 },
-	  { name: "Roadhog", role: "Tank", species: "Human", gender: "Male", compPlaystyle: "Brawl", releaseYear: 2016 },
-	  { name: "Sigma", role: "Tank", species: "Cyborg", gender: "Male", compPlaystyle: "Poke", releaseYear: 2019 },
-	  { name: "Sojourn", role: "DPS", species: "Cyborg", gender: "Female", compPlaystyle: "Brawl", releaseYear: 2022 },
-	  { name: "Soldier 76", role: "DPS", species: "Cyborg", gender: "Male", compPlaystyle: "Poke", releaseYear: 2016 },
-	  { name: "Sombra", role: "DPS", species: "Cyborg", gender: "Female", compPlaystyle: "Dive", releaseYear: 2016 },
-	  { name: "Symmetra", role: "DPS", species: "Cyborg", gender: "Female", compPlaystyle: "Brawl", releaseYear: 2016 },
-	  { name: "Torbjorn", role: "DPS", species: "Cyborg", gender: "Male", compPlaystyle: "Poke", releaseYear: 2016 },
-	  { name: "Tracer", role: "DPS", species: "Cyborg", gender: "Female", compPlaystyle: "Dive", releaseYear: 2016 },
-	  { name: "Venture", role: "DPS", species: "Human", gender: "Other", compPlaystyle: "Dive", releaseYear: 2024 },
-	  { name: "Widowmaker", role: "DPS", species: "Cyborg", gender: "Female", compPlaystyle: "Poke", releaseYear: 2016 },
-	  { name: "Winston", role: "Tank", species: "Animal", gender: "Male", compPlaystyle: "Dive", releaseYear: 2016 },
-	  { name: "Wrecking Ball", role: "Tank", species: "Animal", gender: "Male", compPlaystyle: "Dive", releaseYear: 2018 },
-	  { name: "Zarya", role: "Tank", species: "Human", gender: "Female", compPlaystyle: "Brawl", releaseYear: 2016 },
-	  { name: "Zenyatta", role: "Support", species: "Omnic", gender: "Male", compPlaystyle: "Poke", releaseYear: 2016 },
-	  
+		{ name: "Ana", role: "Support", species: "Human", gender: "Female", compPlaystyle: "Dive", releaseYear: 2016, img: "images/Ana.png"},
+		{ name: "Ashe", role: "DPS", species: "Human", gender: "Female", compPlaystyle: "Poke", releaseYear: 2018, img: "images/Ashe.png" },
+		{ name: "Baptiste", role: "Support", species: "Human", gender: "Male", compPlaystyle: "Brawl", releaseYear: 2019, img: "images/Baptiste.png" },
+		{ name: "Bastion", role: "DPS", species: "Omnic", gender: "Male", compPlaystyle: "Brawl", releaseYear: 2016, img: "images/Bastion.png" },
+		{ name: "Brigitte", role: "Support", species: "Human", gender: "Female", compPlaystyle: "Dive", releaseYear: 2018, img: "images/Brigitte.png" },
+		{ name: "Cassidy", role: "DPS", species: "Human", gender: "Male", compPlaystyle: "Brawl", releaseYear: 2016, img: "images/Cassidy.png" },
+		{ name: "D.Va", role: "Tank", species: "Human", gender: "Female", compPlaystyle: "Dive", releaseYear: 2016, img: "images/DVa.png" },
+		{ name: "Doomfist", role: "Tank", species: "Cyborg", gender: "Male", compPlaystyle: "Dive", releaseYear: 2017, img: "images/Doomfist.png" },
+		{ name: "Echo", role: "DPS", species: "Omnic", gender: "Female", compPlaystyle: "Dive", releaseYear: 2020, img: "images/Echo.png" },
+		{ name: "Genji", role: "DPS", species: "Cyborg", gender: "Male", compPlaystyle: "Dive", releaseYear: 2016, img: "images/Genji.png" },
+		{ name: "Hanzo", role: "DPS", species: "Human", gender: "Male", compPlaystyle: "Poke", releaseYear: 2016, img: "images/Hanzo.png" },
+		{ name: "Hazard", role: "Tank", species: "Cyborg", gender: "Male", compPlaystyle: "Dive", releaseYear: 2024, img: "images/Hazard.png"},
+		{ name: "Illari", role: "Support", species: "Human", gender: "Female", compPlaystyle: "Poke", releaseYear: 2023, img: "images/Illari.png" },
+		{ name: "Junker Queen", role: "Tank", species: "Human", gender: "Female", compPlaystyle: "Brawl", releaseYear: 2022, img: "images/Junker_Queen.png" },
+		{ name: "Junkrat", role: "DPS", species: "Human", gender: "Male", compPlaystyle: "Brawl", releaseYear: 2016, img: "images/Junkrat.png" },
+		{ name: "Juno", role: "Support", species: "Human", gender: "Female", compPlaystyle: "Brawl", releaseYear: 2024, img:"images/Juno.png" },
+		{ name: "Kiriko", role: "Support", species: "Human", gender: "Female", compPlaystyle: "Dive", releaseYear: 2022, img:"images/Kiriko.png" },
+		{ name: "Lifeweaver", role: "Support", species: "Human", gender: "Male", compPlaystyle: "Poke", releaseYear: 2023, img:"images/Lifeweaver.png" },
+		{ name: "Lucio", role: "Support", species: "Human", gender: "Male", compPlaystyle: "Dive", releaseYear: 2016, img: "images/Lucio.png" },
+		{ name: "Mauga", role: "Tank", species: "Cyborg", gender: "Male", compPlaystyle: "Brawl", releaseYear: 2023, img:"images/Mauga.png" },
+		{ name: "Mei", role: "DPS", species: "Human", gender: "Female", compPlaystyle: "Poke", releaseYear: 2016, img: "images/Mei.png" },
+		{ name: "Mercy", role: "Support", species: "Human", gender: "Female", compPlaystyle: "Poke", releaseYear: 2016, img: "images/Mercy.png" },
+		{ name: "Moira", role: "Support", species: "Human", gender: "Female", compPlaystyle: "Brawl", releaseYear: 2017, img: "images/Moira.png" },
+		{ name: "Orisa", role: "Tank", species: "Omnic", gender: "Female", compPlaystyle: "Brawl", releaseYear: 2017, img: "images/Orisa.png" },
+		{ name: "Pharah", role: "DPS", species: "Human", gender: "Female", compPlaystyle: "Dive", releaseYear: 2016, img: "images/Pharah.png" },
+		{ name: "Ramattra", role: "Tank", species: "Omnic", gender: "Male", compPlaystyle: "Brawl", releaseYear: 2022, img: "images/Ramattra.png" },
+		{ name: "Reaper", role: "DPS", species: "Human", gender: "Male", compPlaystyle: "Brawl", releaseYear: 2016, img: "images/Reaper.png" },
+		{ name: "Reinhardt", role: "Tank", species: "Human", gender: "Male", compPlaystyle: "Brawl", releaseYear: 2016, img: "images/Reinhardt.png" },
+		{ name: "Roadhog", role: "Tank", species: "Human", gender: "Male", compPlaystyle: "Brawl", releaseYear: 2016, img: "images/Roadhog.png" },
+		{ name: "Sigma", role: "Tank", species: "Human", gender: "Male", compPlaystyle: "Poke", releaseYear: 2019, img: "images/Sigma.png" },
+		{ name: "Sojourn", role: "DPS", species: "Human", gender: "Female", compPlaystyle: "Poke", releaseYear: 2022, img: "images/Sojourn.png" },
+		{ name: "Soldier: 76", role: "DPS", species: "Human", gender: "Male", compPlaystyle: "Poke", releaseYear: 2016, img: "images/Soldier76.png" },
+		{ name: "Sombra", role: "DPS", species: "Human", gender: "Female", compPlaystyle: "Dive", releaseYear: 2016, img: "images/Sombra.png" },
+		{ name: "Symmetra", role: "DPS", species: "Human", gender: "Female", compPlaystyle: "Poke", releaseYear: 2016, img: "images/Symmetra.png" },
+		{ name: "Torbjorn", role: "DPS", species: "Human", gender: "Male", compPlaystyle: "Brawl", releaseYear: 2016, img: "images/Torbjorn.png" },
+		{ name: "Tracer", role: "DPS", species: "Human", gender: "Female", compPlaystyle: "Dive", releaseYear: 2016, img: "images/Tracer.png" },
+		{ name: "Venture", role: "DPS", species: "Human", gender: "Other", compPlaystyle: "Dive", releaseYear: 2024, img: "images/Venture.png" },
+		{ name: "Widowmaker", role: "DPS", species: "Human", gender: "Female", compPlaystyle: "Poke", releaseYear: 2016, img: "images/Widowmaker.png" },
+		{ name: "Winston", role: "Tank", species: "Gorilla", gender: "Male", compPlaystyle: "Dive", releaseYear: 2016, img: "images/Winston.png" },
+		{ name: "Wrecking Ball", role: "Tank", species: "Animal", gender: "Male", compPlaystyle: "Dive", releaseYear: 2018, img:"images/Wrecking_Ball.png" },
+		{ name: "Zarya", role: "Tank", species: "Human", gender: "Female", compPlaystyle: "Brawl", releaseYear: 2016, img: "images/Zarya.png" },
+		{ name: "Zenyatta", role: "Support", species: "Omnic", gender: "Male", compPlaystyle: "Poke", releaseYear: 2016, img: "images/Zenyatta.png" }
     ];
 
     let selectedHero = pickRandomHero();
-	let count = 0;
-	console.log(selectedHero);
+    let count = 0;
+    console.log(selectedHero);
 
     // Function to pick a random hero from the list
     function pickRandomHero() {
@@ -192,92 +202,72 @@
     // Check the user's guess
     function checkGuess() {
       count++;
-	  const guessInput = document.getElementById("guess").value.trim(); // Retrieve and trim user input
-      const guessHistoryContainer = document.getElementById("guess-history"); // Reference the guess history container
+      const guessInput = document.getElementById("guess").value.trim();
+      const guessHistoryContainer = document.getElementById("guess-history");
 
-      // Find the hero in the list based on the user's guess (case-insensitive)
       const guessedHero = heroes.find(hero => hero.name.toLowerCase() === guessInput.toLowerCase());
 
-      // Create a new div for guess entries and assign it the guess-entry class
       const guessEntry = document.createElement("div");
       guessEntry.classList.add("guess-entry");
-	  let test = 0;
+      let test = 0;
 
       if (!guessedHero) {
-        // If the guess does not match any hero, provide an error message
         guessEntry.textContent = `Invalid hero name - Please try again`;
       } else if (guessedHero.name.toLowerCase() === selectedHero.name.toLowerCase()) {
-        // If the guess is correct, display success message
         guessEntry.textContent = `Correct! The hero is ${selectedHero.name}. `;
-		if (count === 1){
-			guessEntry.textContent += ` It took ${count} guess`;
-		} else{
-			guessEntry.textContent += ` It took ${count} guesses`;
-		}
-		
+        if (count === 1){
+          guessEntry.textContent += ` It took ${count} guess`;
+        } else{
+          guessEntry.textContent += ` It took ${count} guesses`;
+        }
         guessEntry.style.color = "#218ffe";
       } else {
-        // Provide feedback on matching traits
         let feedback = `${guessedHero.name}'s Matching Traits:`;
-        if (guessedHero.species === selectedHero.species) {
-          feedback += ` ${guessedHero.species},`;
-        }
-		
-        if (guessedHero.gender === selectedHero.gender) {
-          feedback += ` ${guessedHero.gender},`;
-          test++;
-		}
-		if (guessedHero.role === selectedHero.role){
-		  feedback += ` ${guessedHero.role},`;
-		  test++;
-		}
-        if (guessedHero.compPlaystyle === selectedHero.compPlaystyle) {
-          feedback += ` ${guessedHero.compPlaystyle},`;
-          test++;
-		}
-        if (guessedHero.releaseYear === selectedHero.releaseYear) {
-          feedback += ` Release Year (${selectedHero.releaseYear}),`;
-		  test++;
-        }
-		if (test === 0){
-		  feedback += " None.";
-		}
-		
-        // Remove the trailing comma if present or indicate no matches
-        feedback = feedback.replace(/,$/, " -") || "No matching traits.";
-		
-		if (guessedHero.releaseYear < selectedHero.releaseYear) {
+        if (guessedHero.species === selectedHero.species) feedback += ` ${guessedHero.species},`;
+        if (guessedHero.gender === selectedHero.gender) feedback += ` ${guessedHero.gender},`;
+        if (guessedHero.role === selectedHero.role) feedback += ` ${guessedHero.role},`;
+        if (guessedHero.compPlaystyle === selectedHero.compPlaystyle) feedback += ` ${guessedHero.compPlaystyle},`;
+        if (guessedHero.releaseYear === selectedHero.releaseYear) feedback += ` Release Year (${selectedHero.releaseYear}),`;
+
+        feedback = feedback.replace(/,$/, ".") || "No matching traits.";
+
+        if (guessedHero.releaseYear < selectedHero.releaseYear) {
+          feedback = feedback.replace(/.$/, " -") || "No matching traits.";
           feedback += ` The hero's release year is after ${guessedHero.releaseYear}`;
         } else if (guessedHero.releaseYear > selectedHero.releaseYear) {
+          feedback = feedback.replace(/.$/, " -") || "No matching traits.";
           feedback += ` The hero's release year is before ${guessedHero.releaseYear}`;
         }
-		
+
         guessEntry.textContent = feedback;
-		
+
+        // Append hero image
+        const heroImage = document.createElement("img");
+        heroImage.src = guessedHero.img;
+        heroImage.alt = guessedHero.name;
+        heroImage.classList.add("guess-image");
+        guessEntry.prepend(heroImage);
       }
 
-      // Add the entry to the guess history container
       guessHistoryContainer.appendChild(guessEntry);
-
-      // Clear the input for the next guess
       document.getElementById("guess").value = "";
-	  test = 0;
+      test = 0;
     }
 
     // Play again function to reset the game
     function playAgain() {
-      selectedHero = pickRandomHero(); // Select a new random hero
-	  console.log(selectedHero);
-      document.getElementById("guess-history").innerHTML = ""; // Clear the guess history
-      document.getElementById("guess").value = ""; // Clear the input field
-	  count = 0;
+      selectedHero = pickRandomHero();
+      console.log(selectedHero);
+      document.getElementById("guess-history").innerHTML = "";
+      document.getElementById("guess").value = "";
+      count = 0;
     }
-	
-	function handleKeyDown(event) {
-		if (event.key === "Enter") {
-		  checkGuess()
-		}
-	}
+
+    function handleKeyDown(event) {
+      if (event.key === "Enter") {
+        checkGuess();
+      }
+    }
   </script>
 </body>
 </html>
