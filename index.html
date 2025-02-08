@@ -20,6 +20,7 @@
 		text-align: center;
 		padding: 20px;
 		position: relative;
+		
     }
 	
 	body::before{
@@ -45,10 +46,15 @@
 		color: white;
 		padding-top: 20px;
 		padding-bottom: 10px;
-		width: 600px;
+		width: 700px;
 		border: 2px solid #f99e1a;
 		border-radius: 10px;
 		justify-self:center;
+		align-self: center;
+	}
+
+	.howToPlay{
+		justify-self:left;
 	}
 	
     .hint {
@@ -121,27 +127,70 @@
 		border: 1px solid #f99e1a;
 	}
 	
-	.correct-trait{
-		color: green;
+	.modal-content{
+		background-color:#43484c;
+		color:white;
+		border:1px solid #f99e1a;	
+		width:820px;
+	}
+
+	.modal{
+		text-align:center;
+		transform:translate(-160px);
+	}
+
+	
+	.modal-body{
+		padding-bottom:5px;
+		font-size: 25px;
+	}
+
+	.modal-header{
+		border:none;
+		padding-bottom:5px;
 	}
 	
-	.incorrect-trait{
-		color: red;
-	}
   </style>
 </head>
 <body>
+	
+	
+
   <div class="gameContainer">  
-  <h1>Overwatch Hero Guessing Game</h1>
+  <h1>Overwatchle</h1>
   <p>Guess the Overwatch hero based on matching traits!</p>
 
   <div class="input-container">
     <input type="text" id="guess" class="testing" placeholder="Enter your hero guess here" onkeydown="handleKeyDown(event)">
     <button onclick="checkGuess()">Submit</button>
     <button onclick="playAgain()">Play Again</button>
+	<button type="button" data-bs-toggle="modal" data-bs-target="#showInstructions">How To Play</button>
   </div>
   </div>
   <div id="guess-history" class="guess-history"></div>
+
+  <div class="modal" id="showInstructions">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h2 class="modal-title">Welcome to Overwatchle</h2>
+				<button type="btn" class="btn-close btn-close-white" data-bs-dismiss="modal" ></button>
+			</div>
+
+			<div class="modal-body">
+				
+				<p>This game is heavily inspired by Loldle.net, a game in which
+					you guess the hidden character based on shared traits. In
+					Overwatchle, the traits are the species (human, omnic, cyborg, animal, and other),
+					gender (male, female, other), role (DPS, support, tank), playstyle (dive, poke brawl),
+					and release year.
+				</p>
+
+			</div>
+			
+		</div>
+	</div>
+  </div>
 
   <script>
     // Hero data
@@ -216,6 +265,7 @@
         guessEntry.textContent = `Invalid hero name - Please try again`;
       } else if (guessedHero.name.toLowerCase() === selectedHero.name.toLowerCase()) {
         guessEntry.textContent = `Correct! The hero is ${selectedHero.name}. `;
+		document.getElementById("guess").disabled = "true";
         if (count === 1){
           guessEntry.textContent += ` It took ${count} guess`;
         } else{
@@ -278,7 +328,7 @@
       selectedHero = pickRandomHero();
       console.log(selectedHero);
       document.getElementById("guess-history").innerHTML = "";
-      document.getElementById("guess").value = "";
+	  document.getElementById("guess").removeAttribute("disabled");
       count = 0;
     }
 
@@ -287,6 +337,11 @@
         checkGuess();
       }
     }
+
+	var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+	var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+	return new bootstrap.Popover(popoverTriggerEl)
+	})
   </script>
 </body>
 </html>
