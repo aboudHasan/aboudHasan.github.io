@@ -73,6 +73,11 @@
 		border-radius: 10px;
     }
 	
+	input[type=text]:disabled{
+		background-color:#43484c;
+		
+	}
+
 	input[type=text]:focus{
 		outline: none;
 	}
@@ -169,7 +174,7 @@
   </div>
   <div id="guess-history" class="guess-history"></div>
 
-  <div class="modal" id="showInstructions">
+  <div class="modal fade" id="showInstructions">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -226,12 +231,12 @@
 		{ name: "Roadhog", role: "Tank", species: "Human", gender: "Male", compPlaystyle: "Brawl", releaseYear: 2016, img: "images/Roadhog.png" },
 		{ name: "Sigma", role: "Tank", species: "Cyborg", gender: "Male", compPlaystyle: "Poke", releaseYear: 2019, img: "images/Sigma.png" },
 		{ name: "Sojourn", role: "DPS", species: "Cyborg", gender: "Female", compPlaystyle: "Brawl", releaseYear: 2022, img: "images/Sojourn.png" },
-		{ name: "Soldier: 76", role: "DPS", species: "Cyborg", gender: "Male", compPlaystyle: "Poke", releaseYear: 2016, img: "images/Soldier76.png" },
+		{ name: "Soldier 76", role: "DPS", species: "Cyborg", gender: "Male", compPlaystyle: "Poke", releaseYear: 2016, img: "images/Soldier76.png" },
 		{ name: "Sombra", role: "DPS", species: "Human", gender: "Female", compPlaystyle: "Dive", releaseYear: 2016, img: "images/Sombra.png" },
 		{ name: "Symmetra", role: "DPS", species: "Cyborg", gender: "Female", compPlaystyle: "Brawl", releaseYear: 2016, img: "images/Symmetra.png" },
 		{ name: "Torbjorn", role: "DPS", species: "Cyborg", gender: "Male", compPlaystyle: "Poke", releaseYear: 2016, img: "images/Torbjorn.png" },
 		{ name: "Tracer", role: "DPS", species: "Human", gender: "Female", compPlaystyle: "Dive", releaseYear: 2016, img: "images/Tracer.png" },
-		{ name: "Venture", role: "DPS", species: "Human", gender: "Other", compPlaystyle: "Dive", releaseYear: 2024, img: "images/Venture.png" },
+		{ name: "Venture", role: "DPS", species: "Human", gender: "Other", compPlaystyle: "Brawl", releaseYear: 2024, img: "images/Venture.png" },
 		{ name: "Widowmaker", role: "DPS", species: "Cyborg", gender: "Female", compPlaystyle: "Poke", releaseYear: 2016, img: "images/Widowmaker.png" },
 		{ name: "Winston", role: "Tank", species: "Animal", gender: "Male", compPlaystyle: "Dive", releaseYear: 2016, img: "images/Winston.png" },
 		{ name: "Wrecking Ball", role: "Tank", species: "Animal", gender: "Male", compPlaystyle: "Dive", releaseYear: 2018, img:"images/Wrecking_Ball.png" },
@@ -266,6 +271,7 @@
       } else if (guessedHero.name.toLowerCase() === selectedHero.name.toLowerCase()) {
         guessEntry.textContent = `Correct! The hero is ${selectedHero.name}. `;
 		document.getElementById("guess").disabled = "true";
+		document.getElementById("guess").placeholder="";
         if (count === 1){
           guessEntry.textContent += ` It took ${count} guess`;
         } else{
@@ -320,6 +326,7 @@
 
       guessHistoryContainer.appendChild(guessEntry);
       document.getElementById("guess").value = "";
+	  
       traitTest = 0;
     }
 
@@ -328,6 +335,7 @@
       selectedHero = pickRandomHero();
       console.log(selectedHero);
       document.getElementById("guess-history").innerHTML = "";
+	  document.getElementById("guess").placeholder="Enter your guess here";
 	  document.getElementById("guess").removeAttribute("disabled");
       count = 0;
     }
