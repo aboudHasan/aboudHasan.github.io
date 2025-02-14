@@ -64,6 +64,7 @@
     .input-container {
 		margin-top: 20px;
 		padding-bottom: 10px;
+		position:relative;
     }
     input {
 		padding: 10px;
@@ -73,6 +74,10 @@
 		border-radius: 10px;
     }
 	
+	input[type=text]{
+		position:relative;
+	}
+
 	input[type=text]:disabled{
 		background-color:#43484c;
 		
@@ -114,7 +119,7 @@
 		margin-top: 5px;
 		background-color: #43484c;
 		color: white;
-		border: 1px solid white;
+		border: 1px solid #f99e1a;
 		border-radius: 10px;
 		justify-self: center;
 		justify-content:center;
@@ -129,7 +134,8 @@
 		margin-right: 10px;
 		border-radius: 5px;
 		padding:1px;
-		border: 1px solid #f99e1a;
+		border: 1px solid white;
+		
 	}
 	
 	.modal-content{
@@ -154,7 +160,39 @@
 		border:none;
 		padding-bottom:5px;
 	}
-	
+
+	.dropdown {
+		position: absolute;
+		transform:translate(54px, -10px);
+		top: calc(100% + 5px);
+		left: 0;
+		width: 300px;
+		background: #43484c;
+		border:2px solid #f99e1a;
+		border-radius: 10px;
+		display: none;
+		max-height: 200px;
+		overflow-y: auto;
+		z-index:10;
+	}
+	.dropdown div {
+		padding: 10px;
+		color: #f99e1a;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		font-size:larger;
+	}
+	.dropdown div:hover {
+		background: #1a1a1a;
+	}
+	.dropdown img {
+		width: 45px;
+		height: 45px;
+		margin-right: 10px;
+		border:1px solid white;
+		border-radius:3px;
+	}
   </style>
 </head>
 <body>
@@ -167,10 +205,12 @@
 
   <div class="input-container">
     <input type="text" id="guess" class="testing" placeholder="Enter your hero guess here" onkeydown="handleKeyDown(event)">
+	<div class="dropdown" id="dropdown"></div>
     <button onclick="checkGuess()">Submit</button>
     <button onclick="playAgain()">Play Again</button>
 	<button type="button" data-bs-toggle="modal" data-bs-target="#showInstructions">How To Play</button>
   </div>
+  
   </div>
   <div id="guess-history" class="guess-history"></div>
 
@@ -242,12 +282,54 @@
 		{ name: "Wrecking Ball", role: "Tank", species: "Animal", gender: "Male", compPlaystyle: "Dive", releaseYear: 2018, img:"images/Wrecking_Ball.png" },
 		{ name: "Zarya", role: "Tank", species: "Human", gender: "Female", compPlaystyle: "Brawl", releaseYear: 2016, img: "images/Zarya.png" },
 		{ name: "Zenyatta", role: "Support", species: "Omnic", gender: "Male", compPlaystyle: "Brawl", releaseYear: 2016, img: "images/Zenyatta.png" }
+		
     ];
 
     let selectedHero = pickRandomHero();
     let count = 0;
 	let traitTest = 0;
     console.log(selectedHero);
+
+	const dropdown = document.getElementById("dropdown");
+	const input = document.getElementById("guess");
+
+	let filteredHeroes = [];
+	
+	input.addEventListener("input", () => {
+		const query = input.value.toLowerCase();
+		dropdown.innerHTML = "";
+
+		if (query === ""){
+			dropdown.style.display = "none";
+			dropdown.innerHTML = "";
+			return;
+		}
+
+		filteredHeroes = heroes.filter(hero => hero.name.toLowerCase().startsWith(query));
+		
+		if (filteredHeroes.length === 0){
+			dropdown.style.display = "none";
+			dropdown.innerHTML = "";
+			return;
+		}
+
+		filteredHeroes.forEach(hero => {
+			const option = document.createElement("div");
+			option.innerHTML = `<img src ="${hero.img}"> ${hero.name}`;
+			
+			option.addEventListener("click", () => {
+				console.log("test");
+			});
+
+			dropdown.appendChild(option);
+
+		});
+
+		
+		dropdown.style.display = "block";
+
+
+	});
 
     // Function to pick a random hero from the list
     function pickRandomHero() {
@@ -257,9 +339,9 @@
     // Check the user's guess
     function checkGuess() {
       count++;
-      const guessInput = document.getElementById("guess").value.trim();
+	
+	  const guessInput = document.getElementById("guess").value.trim();
       const guessHistoryContainer = document.getElementById("guess-history");
-
       const guessedHero = heroes.find(hero => hero.name.toLowerCase() === guessInput.toLowerCase());
 
       const guessEntry = document.createElement("div");
@@ -279,7 +361,7 @@
         }
         guessEntry.style.color = "#218ffe";
       } else {
-        let feedback = `${guessedHero.name}'s Matching Traits:`;
+        let feedback = `${guessedHero.name}'s Matching Traits: `;
         if (guessedHero.species === selectedHero.species) {
 			feedback += ` ${guessedHero.species},`;
 			traitTest++;
@@ -342,7 +424,12 @@
 
     function handleKeyDown(event) {
       if (event.key === "Enter") {
-        checkGuess();
+        if (filteredHeroes.length > 0){
+			document.getElementById("guess").value = filteredHeroes[0].name;
+		}
+		checkGuess();
+		dropdown.style.display = "none";
+		dropdown.innerHTML = "";
       }
     }
 
