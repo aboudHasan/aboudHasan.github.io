@@ -65,7 +65,11 @@
 		margin-top: 20px;
 		padding-bottom: 10px;
 		position:relative;
+		
     }
+
+	
+
     input {
 		padding: 10px;
 		font-size: 20px;
@@ -172,9 +176,15 @@
 		border-radius: 10px;
 		display: none;
 		max-height: 200px;
-		overflow-y: auto;
+		overflow-y:auto;
 		z-index:10;
 	}
+
+	.dropdownContent{
+		overflow-y: auto;
+		height:100%;
+	}
+
 	.dropdown div {
 		padding: 10px;
 		color: #f99e1a;
@@ -182,6 +192,7 @@
 		display: flex;
 		align-items: center;
 		font-size:larger;
+		
 	}
 	.dropdown div:hover {
 		background: #1a1a1a;
@@ -193,6 +204,11 @@
 		border:1px solid white;
 		border-radius:3px;
 	}
+
+	
+
+	
+
   </style>
 </head>
 <body>
@@ -318,7 +334,10 @@
 			option.innerHTML = `<img src ="${hero.img}"> ${hero.name}`;
 			
 			option.addEventListener("click", () => {
-				console.log("test");
+				document.getElementById("guess").value = hero.name;
+				checkGuess();
+				dropdown.style.display = "none";
+				dropdown.innerHTML = "";
 			});
 
 			dropdown.appendChild(option);
