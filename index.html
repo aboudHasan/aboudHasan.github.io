@@ -385,6 +385,7 @@
 
       if (!guessedHero) {
         guessEntry.textContent = `Invalid hero name - Please try again`;
+		count--;
       } else if (guessedHero.name.toLowerCase() === selectedHero.name.toLowerCase()) {
         guessEntry.textContent = `Correct! The hero is ${selectedHero.name}. `;
 		document.getElementById("guess").disabled = "true";
