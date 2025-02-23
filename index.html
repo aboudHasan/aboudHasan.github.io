@@ -131,6 +131,13 @@
 		font-size: 25px;
 		text-align: center;
     }
+
+	.guess-entryItem{
+		display: flex;
+		align-items:center;
+		padding:3px;
+		border:1px solid white;
+	}
 	
 	.guess-image {
 		width: 60px;
@@ -340,8 +347,7 @@
 		filteredHeroes = heroes.filter(hero => hero.name.toLowerCase().startsWith(query));
 		
 		if (filteredHeroes.length === 0){
-			dropdown.style.display = "none";
-			dropdown.innerHTML = "";
+			dropdown.innerHTML = "No results found";
 			return;
 		}
 
