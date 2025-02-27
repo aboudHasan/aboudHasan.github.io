@@ -1,4 +1,3 @@
-// Hero data
 let heroes = [
     { name: "Ana", role: "Support", species: "Human", gender: "Female", compPlaystyle: "Dive", releaseYear: 2016, img: "images/Ana.png"},
     { name: "Ashe", role: "DPS", species: "Human", gender: "Female", compPlaystyle: "Poke", releaseYear: 2018, img: "images/Ashe.png" },
@@ -94,14 +93,11 @@ input.addEventListener("input", () => {
 
 });
 
-// Function to pick a random hero from the list
 function pickRandomHero() {
     return heroes[Math.floor(Math.random() * heroes.length)];
 }
 
 
-
-// Check the user's guess
 function checkGuess() {
     count++;
 
@@ -166,7 +162,6 @@ function checkGuess() {
         guessEntry.textContent += ` The hero's release year is before ${guessedHero.releaseYear}`;
     }
 
-    // Append hero image
     const heroImage = document.createElement("img");
     heroImage.src = guessedHero.img;
     heroImage.alt = guessedHero.name;
@@ -191,7 +186,6 @@ function checkGuess() {
     traitTest = 0;
 }
 
-// Play again function to reset the game
 function playAgain() {
     selectedHero = pickRandomHero();
     console.log(selectedHero);
