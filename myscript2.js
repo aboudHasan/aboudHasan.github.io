@@ -448,19 +448,8 @@ function checkGuess() {
   if (!guessedHero) {
     guessEntry.textContent = `Invalid hero name - Please try again`;
     count--;
-  } else if (
-    guessedHero.name.toLowerCase() === selectedHero.name.toLowerCase()
-  ) {
-    guessEntry.textContent = `Correct! The hero is ${selectedHero.name}. `;
-    document.getElementById("guess").disabled = "true";
-    document.getElementById("guess").placeholder = "";
-    if (count === 1) {
-      guessEntry.textContent += ` It took ${count} guess`;
-    } else {
-      guessEntry.textContent += ` It took ${count} guesses`;
-    }
-    guessEntry.style.color = "#218ffe";
-  } else {
+  } 
+  else {
     let traitSpecies = document.createElement("div");
     let traitGender = document.createElement("div");
     let traitRole = document.createElement("div");
@@ -544,6 +533,23 @@ function checkGuess() {
       setTimeout(() => {
         guessEntry.appendChild(traitYear);
       }, 5000);
+    }
+
+    if (guessedHero.name.toLowerCase() === selectedHero.name.toLowerCase()){
+      setTimeout(() => {
+        document.getElementById("guess").placeholder = "";
+        document.getElementById("guess").disabled = "true";
+        let victory = document.createElement("div");
+        victory.classList.add("guess-entry");
+        victory.innerHTML = `Correct! The hero was ${selectedHero.name}`;
+        if (count === 1) {
+          victory.innerHTML += ` It took ${count} guess`;
+        } else {
+          victory.innerHTML += ` It took ${count} guesses`;
+        }
+        victory.style.color = "#218ffe";
+        guessHistoryContainer.appendChild(victory);
+      }, 6000);
     }
 
     // Append hero image
