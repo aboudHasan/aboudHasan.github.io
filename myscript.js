@@ -20,7 +20,7 @@ let heroes = [
   {
     name: "Baptiste",
     role: "Support",
-    species: "Human",
+    species: "Cyborg",
     gender: "Male",
     compPlaystyle: "Brawl",
     releaseYear: 2019,
@@ -47,7 +47,7 @@ let heroes = [
   {
     name: "Cassidy",
     role: "DPS",
-    species: "Human",
+    species: "Cyborg",
     gender: "Male",
     compPlaystyle: "Brawl",
     releaseYear: 2016,
@@ -79,6 +79,15 @@ let heroes = [
     compPlaystyle: "Dive",
     releaseYear: 2020,
     img: "images/Echo.png",
+  },
+  {
+    name: "Freja",
+    role: "DPS",
+    species: "Human",
+    gender: "Female",
+    compPlaystyle: "Dive",
+    releaseYear: 2025,
+    img: "images/Freja.png",
   },
   {
     name: "Genji",
