@@ -49,7 +49,7 @@ let heroes = [
     emoji1: "🎮",
     emoji2: "🚀",
     emoji3: "🐰",
-    img: "images/D.Va.png",
+    img: "images/DVa.png",
   },
   {
     name: "Doomfist",
@@ -304,6 +304,7 @@ console.log(selectedHero);
 
 const dropdown = document.getElementById("dropdown");
 const input = document.getElementById("guess");
+let victoryCheck = false;
 
 let filteredHeroes = [];
 let unavailableHeroes = [];
@@ -366,7 +367,7 @@ function checkGuess() {
     guessEntry.textContent = `Invalid hero name - Please try again`;
     count--;
   } else {
-    if (!(guessedHero.name === selectedHero.name)) {
+    if (!(guessedHero.name.toLowerCase() === selectedHero.name.toLowerCase())) {
       if (test === 0) {
         if (selectedHero.emoji2) {
           emojiDisplay.innerHTML += `${selectedHero.emoji2}`;
@@ -381,6 +382,15 @@ function checkGuess() {
         }
       }
       guessEntry.style.backgroundColor = "darkred";
+    } else if (
+      guessedHero.name.toLowerCase() === selectedHero.name.toLowerCase()
+    ) {
+      guessEntry.style.backgroundColor = "green";
+
+      input.disabled = "true";
+      input.placeholder = "";
+
+      victoryCheck = true;
     }
 
     // Append hero image
@@ -395,6 +405,14 @@ function checkGuess() {
   }
 
   guessHistoryContainer.appendChild(guessEntry);
+  if (victoryCheck) {
+    let victory = document.createElement("div");
+
+    victory.innerHTML = `Correct! The hero was ${selectedHero.name}`;
+    victory.classList.add("guess-entry");
+    victory.style.color = "#218ffe";
+    guessHistoryContainer.appendChild(victory);
+  }
   document.getElementById("guess").value = "";
   test++;
 
@@ -416,8 +434,10 @@ function playAgain() {
   document.getElementById("guess-history").innerHTML = "";
   document.getElementById("guess").placeholder = "Enter your guess here";
   document.getElementById("guess").removeAttribute("disabled");
+  emojiDisplay.innerHTML = `${selectedHero.emoji1}`;
   count = 0;
   test = 0;
+  victoryCheck = false;
   unavailableHeroes = unavailableHeroes.filter((item) => {
     heroes.push(item);
     return false;
